@@ -9,6 +9,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static co.com.cardgame.resources.Constants.CARD_HAND_SIZE;
+
 public class PokerHands {
 
 
@@ -19,7 +21,7 @@ public class PokerHands {
         cards.add(hand.getCard3());
         cards.add(hand.getCard4());
         cards.add(hand.getCard5());
-        cards.sort(Comparator.comparing(card -> card.getNumber()));
+        cards.sort(Comparator.comparing(Card::getNumber));
         return cards;
     }
 
@@ -29,7 +31,7 @@ public class PokerHands {
         if (listColor.get(0).getNumber() == 1) {
             listColor.get(0).setNumber(14);
         }
-        listColor.sort(Comparator.comparing(card -> card.getNumber()));
+        listColor.sort(Comparator.comparing(Card::getNumber));
         if (listColor.get(0).getNumber() == 10) {
             for (int i = 1; i < listColor.size(); i++) {
                 if (listColor.get(i).getNumber() - 1 != listColor.get(i - 1).getNumber()) {
@@ -47,7 +49,7 @@ public class PokerHands {
     public boolean isStraightFlush(Hand hand) {
         List<Card> listCard = fillHand(hand);
         List<Card> listColor = listCard.stream().filter(card -> card.getSuit().contains(listCard.get(0).getSuit())).collect(Collectors.toList());
-        if (listColor.size() == 5) {
+        if (listColor.size() == CARD_HAND_SIZE) {
             for (int i = 1; i < listColor.size(); i++) {
                 if (listColor.get(i).getNumber() - 1 != listColor.get(i - 1).getNumber()) {
                     return false;
@@ -61,7 +63,7 @@ public class PokerHands {
 
     public boolean isPoker(Hand hand) {
         List<Card> listCard = fillHand(hand);
-        List<Integer> listNum = listCard.stream().map(card -> card.getNumber()).collect(Collectors.toList());
+        List<Integer> listNum = listCard.stream().map(Card::getNumber).collect(Collectors.toList());
         int numAux2 = 0;
         for (int num : listNum) {
             int numAux = Collections.frequency(listNum, num);
@@ -84,8 +86,8 @@ public class PokerHands {
 
     public boolean isStraight(Hand hand) {
         List<Card> listCard = fillHand(hand);
-        List<Integer> listNum = listCard.stream().map(card -> card.getNumber()).collect(Collectors.toList());
-        if (listNum.size() == 5) {
+        List<Integer> listNum = listCard.stream().map(Card::getNumber).collect(Collectors.toList());
+        if (listNum.size() == CARD_HAND_SIZE) {
             for (int i = 1; i < listNum.size(); i++) {
                 if (listNum.get(i) - 1 != listNum.get(i - 1)) {
                     return false;
@@ -97,7 +99,7 @@ public class PokerHands {
 
     public boolean isThreeOfAKind(Hand hand) {
         List<Card> listCard = fillHand(hand);
-        List<Integer> listNum = listCard.stream().map(card -> card.getNumber()).collect(Collectors.toList());
+        List<Integer> listNum = listCard.stream().map(Card::getNumber).collect(Collectors.toList());
         int numAux2 = 0;
         for (int num : listNum) {
             int numAux = Collections.frequency(listNum, num);
@@ -124,7 +126,7 @@ public class PokerHands {
 
     public boolean isOnePair(Hand hand) {
         List<Card> listCard = fillHand(hand);
-        List<Integer> listNum = listCard.stream().map(card -> card.getNumber()).collect(Collectors.toList());
+        List<Integer> listNum = listCard.stream().map(Card::getNumber).collect(Collectors.toList());
         int numAux = 0;
         int numAux2 = 0;
         for (int num : listNum) {
@@ -143,6 +145,6 @@ public class PokerHands {
         cards.add(hand.getCard3());
         cards.add(hand.getCard4());
         cards.add(hand.getCard5());
-        return Collections.max(cards.stream().map(card -> card.getNumber()).collect(Collectors.toList()));
+        return Collections.max(cards.stream().map(Card::getNumber).collect(Collectors.toList()));
     }
 }
